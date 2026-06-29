@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chess — Live Multiplayer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.2/peerjs.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <span class="dot"></span>
+  <h1>Chess</h1>
+  <span class="header-sub">MULTIPLAYER · P2P</span>
+</header>
+
+<div id="lobby" class="screen active">
+
+  <div class="lobby-board">
+    <div class="mini-board" id="mini-board"></div>
+  </div>
+
+  <div class="lobby-card">
+    <div>
+      <div class="lobby-title">Play <em>live</em> chess<br>with a friend</div>
+    </div>
+    <p class="lobby-desc">Create a room and share the code — your opponent joins from any device, anywhere. No account needed.</p>
+
+    <button class="btn btn-primary" id="create-btn">Create Room</button>
+
+    <div id="room-created" style="display:none; flex-direction:column; gap:14px;">
+      <div class="status-pill pill-waiting" id="waiting-pill">
+        <span class="pip"></span> Waiting for opponent…
+      </div>
+      <div>
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:6px;letter-spacing:.06em;">ROOM CODE</div>
+        <div class="room-display">
+          <code id="room-code-display">—</code>
+          <button class="copy-btn" id="copy-btn">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">OR JOIN</div>
+
+    <div class="input-row">
+      <input type="text" id="join-input" placeholder="Enter room code…" autocomplete="off" spellcheck="false" />
+      <button class="btn btn-secondary" id="join-btn">Join</button>
+    </div>
+    <div id="join-status" style="font-size:.8rem;color:var(--text-muted);min-height:18px;"></div>
+  </div>
+</div>
+
+<div id="game" class="screen">
+  <div class="game-layout">
+
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+      <div class="player-strip" id="strip-top">
+        <div class="player-icon icon-black">♟</div>
+        <div>
+          <div class="player-name" id="name-top">Opponent</div>
+          <div class="player-color" id="color-top">BLACK</div>
+        </div>
+        <div class="player-captures" id="cap-top"></div>
+        <div class="player-timer" id="timer-top">10:00</div>
+      </div>
+
+      <div class="board-wrap">
+        <div id="chessboard"></div>
+      </div>
+
+      <div class="player-strip" id="strip-bottom">
+        <div class="player-icon icon-white">♙</div>
+        <div>
+          <div class="player-name" id="name-bottom">You</div>
+          <div class="player-color" id="color-bottom">WHITE</div>
+        </div>
+        <div class="player-captures" id="cap-bottom"></div>
+        <div class="player-timer" id="timer-bottom">10:00</div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="panel">
+        <div class="panel-title">Status</div>
+        <div class="game-status" id="game-status"><strong>White</strong> to move</div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">Move History</div>
+        <div id="move-log"></div>
+      </div>
+      <button class="btn btn-secondary" id="resign-btn" style="font-size:.8rem;padding:10px;">Resign</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="game-over-overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon" id="over-icon">♛</div>
+    <div class="overlay-title" id="over-title">Checkmate!</div>
+    <div class="overlay-desc" id="over-desc">White wins the game.</div>
+    <button class="btn btn-primary" id="play-again-btn">Play Again</button>
+    <button class="btn btn-secondary" onclick="location.reload()">Main Menu</button>
+  </div>
+</div>
+
+<div class="promo-dialog" id="promo-dialog">
+  <div class="promo-card">
+    <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;">Promote Pawn</div>
+    <div class="promo-pieces" id="promo-pieces"></div>
+  </div>
+</div>
+
+<div class="connection-banner" id="conn-banner">
+  <span id="conn-text">Connecting…</span>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
